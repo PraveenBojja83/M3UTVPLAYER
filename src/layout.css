@@ -96,6 +96,23 @@ html::-webkit-scrollbar {
   z-index: 20;
 }
 
+.playlist-controls {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  z-index: 20;
+}
+
+.playlist-open-button {
+  min-height: 40px;
+  padding: 6px 10px;
+  border: 1px solid #555;
+  border-radius: 4px;
+  background-color: rgba(0, 0, 0, 0.65);
+  color: #fff;
+  cursor: pointer;
+}
+
 .fullscreen-button {
   background-color: rgba(0, 0, 0, 0.65);
   color: #fff;
@@ -192,6 +209,57 @@ html::-webkit-scrollbar {
   height: calc(100vh - 75px);
   overflow: hidden;
   box-sizing: border-box;
+  position: relative;
+}
+
+.welcome-screen {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  text-align: center;
+}
+
+.welcome-screen p {
+  margin: 0;
+  color: #ccc;
+}
+
+.playlist-launch-button {
+  width: min(420px, 90%);
+  min-height: 52px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 18px;
+  border: 1px solid #666;
+  border-radius: 8px;
+  background-color: #1f1f1f;
+  color: #f5f5f5;
+  font-size: 1rem;
+  text-align: left;
+  cursor: pointer;
+}
+
+.playlist-launch-button:hover,
+.playlist-launch-button:focus-visible,
+.playlist-open-button:hover,
+.playlist-open-button:focus-visible {
+  background-color: #3a3a3a;
+  outline: 2px solid #aaa;
+  outline-offset: 2px;
+}
+
+.playlist-launch-button span {
+  font-size: 1.5rem;
+  line-height: 1;
+}
+
+.playlist-launch-hint {
+  color: #999;
+  font-size: 0.9rem;
 }
 
 .player-container {
