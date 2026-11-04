@@ -36,8 +36,10 @@ function App() {
   const handleFullScreenToggle = async () => {
     if (!document.fullscreenElement && fullscreenRef.current) {
       try {
+        setSidebarOpen(false);
         await fullscreenRef.current.requestFullscreen();
       } catch (err) {
+        setSidebarOpen(true);
         console.error("Fullscreen request failed:", err);
       }
     } else if (document.exitFullscreen) {
@@ -67,7 +69,9 @@ function App() {
     };
 
     const handleFullscreenChange = () => {
-      setIsFullscreen(!!document.fullscreenElement);
+      const fullscreen = !!document.fullscreenElement;
+      setIsFullscreen(fullscreen);
+      setSidebarOpen(!fullscreen);
     };
 
     window.addEventListener("keydown", handleKeyPress);
@@ -78,12 +82,6 @@ function App() {
       document.removeEventListener("fullscreenchange", handleFullscreenChange);
     };
   }, [channels.length, currentIndex, channels, selectChannelByIndex]);
-
-  const handleFullscreenClick = () => {
-    if (isFullscreen) {
-      setSidebarOpen((prev) => !prev);
-    }
-  };
 
   return (
     <div>
@@ -102,7 +100,18 @@ function App() {
 
         <div className="main-content">
           {currentChannel ? (
-            <div className="player-container" onClick={isFullscreen ? handleFullscreenClick : undefined}>
+            <div className="player-container">
+              {!isFullscreen && <div className="playlist-controls">
+                <button
+                  className="playlist-open-button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setSidebarOpen(true);
+                  }}
+                >
+                  Search / Add Playlist
+                </button>
+              </div>}
               <div className="fullscreen-controls">
                 <button
                   className="fullscreen-button"
@@ -117,7 +126,17 @@ function App() {
               <Player src={currentChannel.url} />
             </div>
           ) : (
-            <p>Select click on left arrow key to enter URL.</p>
+            <div className="welcome-screen">
+              <p>Select a channel or open the playlist menu to enter a URL.</p>
+              <button
+                className="playlist-launch-button"
+                onClick={() => setSidebarOpen(true)}
+              >
+                <span aria-hidden="true">⌕</span>
+                Search or add a playlist
+              </button>
+              <span className="playlist-launch-hint">Tap to enter a playlist URL</span>
+            </div>
           )}
         </div>
       </div>
